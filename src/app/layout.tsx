@@ -1,0 +1,42 @@
+import type { Metadata } from "next";
+import { Geist, Geist_Mono } from "next/font/google";
+import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
+
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
+export const metadata: Metadata = {
+  title: "NLP Habit Tracker - AI-Powered Habit Analytics",
+  description: "Transform casual habit logs into actionable insights with AI-powered NLP parsing.",
+  keywords: ["Habit Tracker", "NLP", "AI", "Next.js", "TypeScript", "Tailwind CSS", "shadcn/ui", "Habit Analytics"],
+  twitter: {
+    card: "summary_large_image",
+    title: "NLP Habit Tracker",
+    description: "AI-powered habit tracking with NLP parsing",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
+      >
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  );
+}

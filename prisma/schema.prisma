@@ -1,0 +1,114 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model HabitEntry {
+  id          String   @id @default(cuid())
+  rawText     String   // Original user input
+  activity    String   // Extracted activity (run, read, meditate, etc.)
+  type        String?  // Type: positive habit, negative behavior, neutral activity, emotional event
+  category    String?  // Category (exercise, nutrition, mindfulness, etc.)
+  quantity    Float?   // Numeric value (5, 30, etc.)
+  unit        String?  // Unit (km, minutes, pages, etc.)
+  mood        String?  // Mood (positive, neutral, negative)
+  sentiment   String?  // AI-detected sentiment
+  trigger     String?  // What caused/influenced this behavior
+  notes       String?  // Additional notes
+  tags        String?  // JSON array of tags
+  points      Int      @default(0) // Gamification points earned
+  date        DateTime @default(now()) // When the habit occurred
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([activity])
+  @@index([category])
+  @@index([date])
+  @@index([mood])
+  @@index([type])
+  @@index([sentiment])
+}
+
+model Goal {
+  id           String   @id @default(cuid())
+  title        String   // Goal title
+  activity     String   // Related activity
+  targetValue  Float    // Target value (e.g., 50 km)
+  currentValue Float    @default(0) // Current progress
+  unit         String?  // Unit (km, minutes, etc.)
+  period       String   // Period (daily, weekly, monthly)
+  startDate    DateTime @default(now())
+  endDate      DateTime?
+  isActive     Boolean  @default(true)
+  isSMART      Boolean  @default(false) // SMART goal flag
+  autoAdjust   Boolean  @default(false) // Auto-adjust target based on performance
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([activity])
+  @@index([period])
+}
+
+model UserProfile {
+  id              String   @id @default(cuid())
+  totalPoints     Int      @default(0)
+  currentStreak   Int      @default(0)
+  longestStreak   Int      @default(0)
+  level           Int      @default(1)
+  badges          String?  // JSON array of earned badges
+  lastActivityDate DateTime?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model Badge {
+  id          String   @id @default(cuid())
+  name        String   // Badge name
+  description String   // Badge description
+  icon        String   // Icon name or emoji
+  category    String   // Category (streak, consistency, milestone, etc.)
+  requirement String   // JSON requirement criteria
+  earnedAt    DateTime @default(now())
+  userId      String   // Reference to user profile
+}
+
+model HabitStack {
+  id          String   @id @default(cuid())
+  triggerHabit String  // Habit that triggers the stack
+  linkedHabit  String  // Habit to do after
+  isActive    Boolean  @default(true)
+  successRate Float    @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AIInsight {
+  id          String   @id @default(cuid())
+  type        String   // prediction, recommendation, warning, achievement
+  title       String   // Insight title
+  content     String   // Insight content
+  confidence  Float?   // Confidence score (0-1)
+  category    String?  // Category
+  isRead      Boolean  @default(false)
+  validUntil  DateTime? // When this insight expires
+  createdAt   DateTime @default(now())
+}
+
+model Reminder {
+  id          String   @id @default(cuid())
+  habit       String   // Habit to remind
+  message     String   // Reminder message
+  time        String   // Time to remind (HH:mm)
+  days        String   // JSON array of days (0-6, Sunday-Saturday)
+  isActive    Boolean  @default(true)
+  lastSent    DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
