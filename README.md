@@ -39,6 +39,12 @@ The app learns which habits you often do together and suggests ways to "stack" t
 Too lazy to type? Just speak your habit entry!
 
 ---
+## Screenshots
+<img width="1366" height="724" alt="Screenshot (255)" src="https://github.com/user-attachments/assets/797a0a6d-3ecf-4cfe-8175-cca1efb99444" />
+<img width="1366" height="724" alt="Screenshot (256)" src="https://github.com/user-attachments/assets/7c2c3e3d-a6cc-4bc2-905e-b5e1674167ff" />
+<img width="1366" height="724" alt="Screenshot (257)" src="https://github.com/user-attachments/assets/a7d5e471-b966-4f48-ba54-641ce5bae09c" />
+
+
 
 ## 🚀 Getting Started
 
